@@ -83,13 +83,9 @@ update_status ModuleSceneKen::Update()
 {
 	// TODO 5: make sure the ship goes up and down
 	if(updown)
-	{
 		shipShiftMovement += shipMovementSpeed;
-	}
 	else
-	{
 		shipShiftMovement -= shipMovementSpeed;
-	}
 
 	if (shipShiftMovement < -29.0f)
 		updown = true;
