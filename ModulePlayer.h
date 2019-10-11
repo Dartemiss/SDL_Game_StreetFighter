@@ -8,6 +8,13 @@
 
 struct SDL_Texture;
 
+enum PlayerState
+{
+	IDLE = 0,
+	WALK_FORDWARD,
+	WALK_BACKWARD
+};
+
 class ModulePlayer : public Module
 {
 public:
@@ -20,11 +27,15 @@ public:
 
 public:
 
+
+
 	SDL_Texture* graphics = nullptr;
 	Animation idle;
 	Animation backward;
-	Animation foreward;
+	Animation forward;
 	iPoint position;
+
+	PlayerState currentState = IDLE;
 };
 
 #endif // __MODULEPLAYER_H__
