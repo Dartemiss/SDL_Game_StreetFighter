@@ -7,6 +7,7 @@
 
 struct SDL_Texture;
 
+
 class ModuleSceneKen : public Module
 {
 public:
@@ -28,6 +29,7 @@ public:
 	float shipMovementSpeed;
 	float shipShiftMovement;
 	int updown = 1;
+
 };
 
 #endif // __MODULESCENEKEN_H__
