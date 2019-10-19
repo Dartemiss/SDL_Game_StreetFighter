@@ -30,6 +30,8 @@ public:
 	float shipShiftMovement;
 	int updown = 1;
 
+
+
 };
 
 #endif // __MODULESCENEKEN_H__

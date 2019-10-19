@@ -77,7 +77,8 @@ update_status ModuleSceneHonda::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE))
 	{
-		//App->fade->FadeToBlack(App->scene_ken, this, 3.0f);
+		App->fade->FadeToBlack((Module*)App->scene_ken, this, 3.0f);
+		App->player->maxPosition = 720;
 	}
 
 	return UPDATE_CONTINUE;

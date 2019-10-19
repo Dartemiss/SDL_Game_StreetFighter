@@ -12,7 +12,12 @@ enum PlayerState
 {
 	IDLE = 0,
 	WALK_FORDWARD,
-	WALK_BACKWARD
+	WALK_BACKWARD,
+	KICK,
+	PUNCH,
+	JUMP_UP,
+	JUMP_MID_AIR,
+	JUMP_DOWN
 };
 
 class ModulePlayer : public Module
@@ -33,7 +38,15 @@ public:
 	Animation idle;
 	Animation backward;
 	Animation forward;
+	Animation kick;
+	Animation punch;
+	Animation jumpUp;
+	Animation jumpDown;
+	Animation jumpMidAir;
 	iPoint position;
+
+	int minPosition = 0;
+	int maxPosition = 720;
 
 	PlayerState currentState = IDLE;
 };

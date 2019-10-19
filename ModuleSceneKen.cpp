@@ -111,7 +111,8 @@ update_status ModuleSceneKen::Update()
 	// using FadeToBlack module
 	if(App->input->GetKey(SDL_SCANCODE_SPACE))
 	{
-		//App->fade->FadeToBlack(App->scene_honda, this, 3.0f);
+		App->fade->FadeToBlack((Module*)App->scene_honda, this, 3.0f);
+		App->player->maxPosition = 635;
 	}
 
 	return UPDATE_CONTINUE;

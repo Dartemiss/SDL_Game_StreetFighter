@@ -12,7 +12,7 @@
 ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
 	position.x = 100;
-	position.y = 216;
+	position.y = 125;
 
 	// idle animation (arcade sprite sheet)
 	idle.frames.push_back({7, 14, 60, 90});
@@ -39,7 +39,35 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	forward.frames.push_back({ 352, 127, 61, 93 });
 	forward.frames.push_back({ 432, 127, 61, 93 });
 	forward.speed = 0.1f;
+
+
+	//Kick
+	kick.frames.push_back({ 588, 267, 90, 95 });
+	kick.frames.push_back({ 678, 266, 98, 94 });
+	kick.frames.push_back({ 777, 265, 113, 94 });
+	kick.frames.push_back({ 678, 266, 98, 94 });
+	kick.speed = 0.15f;
+
+	//punch
+	punch.frames.push_back({ 244, 268, 80, 94 });
+	punch.frames.push_back({ 332, 268, 88, 94 });
+	punch.frames.push_back({ 431, 268, 108, 94 });
+	punch.frames.push_back({ 332, 268, 88, 94 });
+	punch.speed = 0.15f;
+
+	//jump
+	jumpUp.frames.push_back({15,844,65,94});
+	jumpUp.frames.push_back({ 95,820,62,114 });
+	jumpUp.frames.push_back({170,798,59,100});
+	jumpMidAir.frames.push_back({246,792,60,92});
+	jumpDown.frames.push_back({323,810,56,78});
+	jumpDown.frames.push_back({395,800,54,102});
+	jumpDown.frames.push_back({461,813,64,119});
+	jumpUp.speed = 0.125f;
+	jumpMidAir.speed = 0.125f;
+	jumpDown.speed = 0.125f;
 }
+
 
 ModulePlayer::~ModulePlayer()
 {
@@ -86,6 +114,22 @@ update_status ModulePlayer::Update()
 			currentAnimation = &backward;
 			--position.x;
 		}
+		else if(App->input->GetKey(SDL_SCANCODE_F))
+		{
+			currentState = KICK;
+			currentAnimation = &kick;
+		}
+		else if(App->input->GetKey(SDL_SCANCODE_G))
+		{
+			currentState = PUNCH;
+			currentAnimation = &punch;
+
+		}
+		else if(App->input->GetKey(SDL_SCANCODE_J))
+		{
+			currentState = JUMP_UP;
+			currentAnimation = &jumpUp;
+		}
 		else
 		{
 			currentState = IDLE;
@@ -105,6 +149,22 @@ update_status ModulePlayer::Update()
 			currentState = WALK_FORDWARD;
 			currentAnimation = &forward;
 			++position.x;
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_F))
+		{
+			currentState = KICK;
+			currentAnimation = &kick;
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_G))
+		{
+			currentState = PUNCH;
+			currentAnimation = &punch;
+
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_J))
+		{
+			currentState = JUMP_UP;
+			currentAnimation = &jumpUp;
 		}
 		else
 		{
@@ -126,19 +186,101 @@ update_status ModulePlayer::Update()
 			currentAnimation = &forward;
 			++position.x;
 		}
+		else if (App->input->GetKey(SDL_SCANCODE_F))
+		{
+			currentState = KICK;
+			currentAnimation = &kick;
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_G))
+		{
+			currentState = PUNCH;
+			currentAnimation = &punch;
+
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_J))
+		{
+			currentState = JUMP_UP;
+			currentAnimation = &jumpUp;
+		}
 		else
 		{
 			currentState = IDLE;
 			currentAnimation = &idle;
 		}
 		break;
+	case KICK:
+		if(kick.isLastFrame)
+		{
+			//Continue Animation
+			currentState = IDLE;
+			currentAnimation = &idle;
+		}
+		else
+		{
+			currentState = KICK;
+			currentAnimation = &kick;
+		}
+		break;
+
+	case PUNCH:
+		if(punch.isLastFrame)
+		{
+			//Continue Animation
+			currentState = IDLE;
+			currentAnimation = &idle;
+		}
+		else
+		{
+			currentState = PUNCH;
+			currentAnimation = &punch;
+		}
+		break;
+
+	case JUMP_UP:
+		if(jumpUp.isLastFrame)
+		{
+			currentState = JUMP_MID_AIR;
+			currentAnimation = &jumpMidAir;
+		}
+		else
+		{
+			currentState = JUMP_UP;
+			currentAnimation = &jumpUp;
+			position.y -= 2;
+		}
+		break;
+	
+	case JUMP_MID_AIR:
+		currentState = JUMP_DOWN;
+		currentAnimation = &jumpDown;
+		break;
+
+	case JUMP_DOWN:
+		if(jumpDown.isLastFrame)
+		{
+			currentState = IDLE;
+			currentAnimation = &idle;
+		}
+		else
+		{
+			currentState = JUMP_DOWN;
+			currentAnimation = &jumpDown;
+			position.y += 2;
+		}
+		break;
 	default:
 		break;
 	}
 	
+	if (position.x < minPosition)
+		position.x = minPosition;
+	else if (position.x > maxPosition)
+		position.x = maxPosition;
+
+
 	//printf("pos.x: %d", position.x);
 	//assert(currentAnimation == nullptr);
-	App->renderer->Blit(graphics, position.x, 125, &currentAnimation->GetCurrentFrame(), 1.75f);
+	App->renderer->Blit(graphics, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.75f);
 	// make sure to detect player movement and change its
 	// position while cycling the animation(check Animation.h)
 
