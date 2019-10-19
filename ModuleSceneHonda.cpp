@@ -69,11 +69,11 @@ bool ModuleSceneHonda::Start()
 
 update_status ModuleSceneHonda::Update()
 {
-	App->renderer->Blit(graphics, 50, -15, &background, 1.75f); // background
-	App->renderer->Blit(graphics, 0, 160, &ground, 1.75f); // ground
-	App->renderer->Blit(graphics, 0, -15, &ceilling, 1.75f); // ceilling
-	App->renderer->Blit(graphics, 230, 125, &pool, 1.75f); // pool
-	App->renderer->Blit(graphics, 258, 137, &(waterFromPool.GetCurrentFrame()), 1.75f); // water animation
+	App->renderer->Blit(graphics, -55, 160, &ground, 1.75f); // ground
+	App->renderer->Blit(graphics, -5, -15, &background, 1.75f); // background
+	App->renderer->Blit(graphics, -55, -15, &ceilling, 1.75f); // ceilling
+	App->renderer->Blit(graphics, 175, 125, &pool, 1.75f); // pool
+	App->renderer->Blit(graphics, 203, 137, &(waterFromPool.GetCurrentFrame()), 1.75f); // water animation
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE))
 	{
